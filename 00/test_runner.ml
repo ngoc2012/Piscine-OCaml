@@ -1,4 +1,4 @@
-#use "ft_test_sign.ml";;  (* Include the target file *)
+#use "ft_test_sign.ml";;
 
 let () =
   let results = [
