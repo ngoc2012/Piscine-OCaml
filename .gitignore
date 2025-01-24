@@ -1,0 +1,14 @@
+**/*.zip
+*.pdf
+**/*.pdf
+**/*.csv
+*.csv
+**/*.txt
+*.txt
+01/data_2023_feb.csv
+00/subject.zip
+00/noreadable
+00/noreadable.csv
+03/Test_knight.csv
+03/Train_knight.csv
+00/subject/customer/*.csv
