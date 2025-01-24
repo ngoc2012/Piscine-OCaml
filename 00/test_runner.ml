@@ -1,10 +1,8 @@
-#use "ft_test_sign.ml";;
-
 let () =
   let results = [
-    (test_sign 5, "positive");
-    (test_sign (-3), "negative");
-    (test_sign 0, "zero")
+    (ft_test_sign 5, "positive");
+    (ft_test_sign (-3), "negative");
+    (ft_test_sign 0, "positive")
   ] in
   List.iter (fun (output, expected) ->
     if output = expected then
