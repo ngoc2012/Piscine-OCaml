@@ -1,7 +1,7 @@
 let ft_sum f s e =
   let rec sum f s e t =
     if s > e then nan
-    else if s = e then f s
+    else if s = e then (t +. f s)
     else sum f (s + 1) e (t +. f s)
   in sum f s e 0.
 
