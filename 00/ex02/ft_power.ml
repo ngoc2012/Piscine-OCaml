@@ -1,4 +1,4 @@
-let rec ft_power (n: int) (p: int) : int =
+let rec ft_power n p =
   if p = 0 then 1
   else if n = 0 then 0
   else n * (ft_power n (p - 1))

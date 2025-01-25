@@ -1,8 +1,8 @@
 let ft_print_alphabet () =
-  let rec print (start: int) (end_: int) =
-    if start <= end_ then (
-        print_char (char_of_int start);
-        print (start + 1) end_
+  let rec print s e =
+    if s <= e then (
+        print_char (char_of_int s);
+        print (s + 1) e
     )
   in
   print (int_of_char 'a') (int_of_char 'z');
