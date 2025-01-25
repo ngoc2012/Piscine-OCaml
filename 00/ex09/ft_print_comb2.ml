@@ -9,7 +9,16 @@ let ft_print_comb2 () =
     print_int j;
   in
   let rec comb (i: int) (j: int) =
-    if i < 10 then
-      if j < 10 then
+    print i j;
+    if i = 98 then print_char '\n'
+    else (
+      print_char ',';
+      print_char ' ';
+      if j < 99 then
+        comb i (j + 1)
+      else if i < 98 then
+        comb (i + 1) (i + 2)
+    )
+  in comb 0 1
 
 let () = ft_print_comb2 ()
