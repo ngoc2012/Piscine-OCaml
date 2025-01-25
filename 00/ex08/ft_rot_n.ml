@@ -1,5 +1,5 @@
-let ft_rot_n (n: int) (s: string): string =
-  let rot (c: char): char =
+let ft_rot_n n s =
+  let rot c =
     let nc = int_of_char c
     and na = int_of_char 'a'
     and nA = int_of_char 'A' in

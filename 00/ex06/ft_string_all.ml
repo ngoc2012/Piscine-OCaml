@@ -1,5 +1,5 @@
-let ft_string_all (f: char -> bool) (s: string): bool =
-  let rec loop (i: int): bool =
+let ft_string_all f s =
+  let rec loop i =
     if i < 0 then true
     else if f (String.get s i) then loop (i - 1)
     else false

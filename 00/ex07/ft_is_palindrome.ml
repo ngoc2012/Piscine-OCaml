@@ -1,5 +1,5 @@
-let ft_is_palindrome (s: string): bool =
-  let rec is_palindrome (s: string) (i: int) (j: int): bool =
+let ft_is_palindrome s =
+  let rec is_palindrome s i j =
     if i >= j then true
     else if (String.get s i) <> (String.get s j) then false
     else is_palindrome s (i + 1) (j - 1)
