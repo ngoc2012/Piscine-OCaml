@@ -1,5 +1,5 @@
 let ft_print_comb2 () =
-  let print (i: int) (j: int) =
+  let print i j =
     if i < 10 then
       print_char '0';
     print_int i;
@@ -8,7 +8,7 @@ let ft_print_comb2 () =
       print_char '0';
     print_int j;
   in
-  let rec comb (i: int) (j: int) =
+  let rec comb i j =
     print i j;
     if i = 98 then print_char '\n'
     else (
