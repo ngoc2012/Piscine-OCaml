@@ -1,10 +1,11 @@
 let rec repeat_string ?str:(s = "x") n =
-  let repeat s n =
-    if n < 0 then "Error"
-    else if n = 0 then ""
-    else s ^ repeat_string ~str:s (n - 1)
+  let repeat s1 n =
+    if n = 0 then s1
+    else repeat (s1 ^ s) (n - 1)
   in
-  repeat s n
+  if n < 0 then "Error"
+  else if n = 0 then ""
+  else repeat s n
 
 let () =
   print_endline(repeat_string (-1));
