@@ -1,4 +1,4 @@
-let rec ft_countdown n =
+let rec ft_countdown (n: int) =
   if n > 0 then (
     print_int n;
     print_char '\n';
