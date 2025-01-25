@@ -1,6 +1,6 @@
-let rec repeat_string ?str:(s = "x") n =
-  let repeat s1 n =
-    if n = 0 then s1
+let repeat_string ?str:(s = "x") n =
+  let rec repeat s1 n =
+    if n = 1 then s1
     else repeat (s1 ^ s) (n - 1)
   in
   if n < 0 then "Error"
