@@ -1,8 +1,8 @@
 let () =
   let results = [
-    (ft_test_sign 5, "positive");
-    (ft_test_sign (-3), "negative");
-    (ft_test_sign 0, "positive")
+    (Ft_test_sign.ft_test_sign 5, "positive");
+    (Ft_test_sign.ft_test_sign (-3), "negative");
+    (Ft_test_sign.ft_test_sign 0, "positive")
   ] in
   List.iter (fun (output, expected) ->
     if output = expected then
