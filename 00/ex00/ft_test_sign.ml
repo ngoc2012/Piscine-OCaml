@@ -5,7 +5,6 @@ let ft_test_sign (n: int) =
     print_endline "positive"
 
 let () =
-  List.iter (fun n ->
-    Printf.printf "Test with [%d]: " n;
-    ft_test_sign n
-  ) [42; 0; -42]
+  ft_test_sign 42;
+  ft_test_sign 0;
+  ft_test_sign (-42);
