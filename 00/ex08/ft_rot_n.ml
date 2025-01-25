@@ -2,13 +2,11 @@ let ft_rot_n (n: int) (s: string): string =
   let rot (c: char): char =
     let nc = int_of_char c in
     let na = int_of_char 'a' in
-    let nz = int_of_char 'z' in
     let nA = int_of_char 'A' in
-    let nZ = int_of_char 'Z' in
-    if (nc >= na) && (nc <= nz) then
-      char_of_int ((nc - na + n) mod nz)
-    else if (nc >= nA) && (nc <= nZ) then
-      char_of_int ((nc - nA + n) mod nZ)
+    if (nc >= na) && (nc <= (int_of_char 'z')) then
+      char_of_int (((nc - na + n) mod 26) + na)
+    else if (nc >= nA) && (nc <= (int_of_char 'Z')) then
+      char_of_int (((nc - nA + n) mod 26) + nA)
     else c
   in String.map rot s
 
