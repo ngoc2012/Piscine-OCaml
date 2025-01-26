@@ -7,5 +7,12 @@ let encode l =
   in aux l []
 
 let () =
+  let string_of_list lst =
+    let string_of_tuple (c, n) =
+      Printf.sprintf "(%c, %d)" c n
+    in
+    "[" ^ (String.concat "; " (List.map string_of_tuple lst)) ^ "]"
+  in
+
   let l = ['a'; 'a'; 'a'; 'a'; 'b'; 'c'; 'c'; 'a'; 'a'; 'd'; 'e'; 'e'; 'e'; 'e'] in
   print_endline (string_of_list (encode l))
