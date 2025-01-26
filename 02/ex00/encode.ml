@@ -23,4 +23,7 @@ let () =
   in
 
   let l = ['a'; 'a'; 'a'; 'a'; 'b'; 'c'; 'c'; 'a'; 'a'; 'd'; 'e'; 'e'; 'e'; 'e'] in
-  print_endline (string_of_list (encode l))
+  print_endline (string_of_list (encode l));
+
+  let empty_list = [] in
+  print_endline (string_of_list (encode empty_list))
