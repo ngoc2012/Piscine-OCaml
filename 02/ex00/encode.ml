@@ -26,4 +26,16 @@ let () =
   print_endline (string_of_list (encode l));
 
   let empty_list = [] in
-  print_endline (string_of_list (encode empty_list))
+  print_endline (string_of_list (encode empty_list));
+
+  let unique_list = ['x'; 'y'; 'z'; 'w'] in
+  print_endline (string_of_list (encode unique_list));
+
+  let same_elements_list = ['k'; 'k'; 'k'; 'k'; 'k'] in
+  print_endline (string_of_list (encode same_elements_list));
+
+  let single_element_list = ['q'] in
+  print_endline (string_of_list (encode single_element_list));
+
+  let mixed_pattern_list = ['m'; 'm'; 'n'; 'n'; 'o'; 'p'; 'p'; 'p'; 'q'; 'r'; 'r'; 'r'; 's'; 's'] in
+  print_endline (string_of_list (encode mixed_pattern_list))
