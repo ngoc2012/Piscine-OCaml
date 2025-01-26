@@ -50,3 +50,4 @@ let () =
   print_endline (string_of_float (pi0));
   print_endline (string_of_float (res));
   print_endline (string_of_float (res -. pi0));
+  print_endline (string_of_float (sum fi 0 1000 0.));
