@@ -1,13 +1,18 @@
 let encode l =
+  let rec rev li lo = match li with
+    | [] -> lo
+    | h :: t -> rev t (h :: lo)
+  in
   let rec aux l acc count = match l with
     | [] -> acc
-    | t :: -> (t, count + 1) :: acc
-    | h :: t ->
+    | [t] -> (t, count + 1) :: acc
+    | h :: (t :: _ as tl) ->
       if h = t then
-        aux t acc (count + 1)
+        aux tl acc (count + 1)
       else
-        aux t ((h, count) :: acc) 0
-  in aux l [] 0
+        aux tl ((h, count + 1) :: acc) 0
+  in
+  rev (aux l [] 0) []
 
 let () =
   let string_of_list lst =
