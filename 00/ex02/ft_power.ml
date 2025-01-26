@@ -1,4 +1,4 @@
-let rec ft_power n p =
+let ft_power n p =
   if n = 0 then 0
   else if p = 0 then 1
   else (
