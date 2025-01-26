@@ -15,6 +15,15 @@ let crossover a b =
   rev(iter a []) []
 
 let () =
+  let print_int_list lst =
+    let rec aux l = match l with
+      | [] -> print_string "]"
+      | [x] -> print_int x; print_string "]"
+      | h :: t -> print_int h; print_string "; "; aux t
+    in
+    print_string "["; aux lst
+  in
+
   (* Test 1: Both lists non-empty *)
   let a1 = [1; 2; 3; 4; 5; 6; 7; 8; 9; 10] in
   let b1 = [2; 4; 6; 8; 10] in
