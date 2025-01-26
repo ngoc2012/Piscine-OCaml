@@ -6,11 +6,11 @@ let encode l =
   let rec aux l acc count = match l with
     | [] -> acc
     | [t] -> (t, count + 1) :: acc
-    | h :: (t :: _ as tl) ->
-      if h = t then
-        aux tl acc (count + 1)
+    | h :: s :: t ->
+      if h = s then
+        aux (s :: t) acc (count + 1)
       else
-        aux tl ((h, count + 1) :: acc) 0
+        aux (s :: t) ((h, count + 1) :: acc) 0
   in
   rev (aux l [] 0) []
 
