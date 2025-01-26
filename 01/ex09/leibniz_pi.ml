@@ -41,7 +41,12 @@ let () =
     else sum f (s + 1) e res
   in
   let fi i = 4. *. (float_of_int (ft_power (-1) i)) /. (2. *. float_of_int(i) +. 1.) in
+  let pi0 = 4. *. atan 1. in
   print_endline (string_of_int (leibniz_pi 0.0001));
-  print_endline (string_of_int (leibniz_pi 0.00007));
-  print_endline (string_of_int (leibniz_pi 0.00005));
-  print_endline (string_of_float (sum fi 0 14285 0.));
+  print_endline (string_of_int (leibniz_pi 0.00004));
+  let n = leibniz_pi 0.00007 in
+  print_endline (string_of_int (n));
+  let res = sum fi 0 n 0. in
+  print_endline (string_of_float (pi0));
+  print_endline (string_of_float (res));
+  print_endline (string_of_float (res -. pi0));
