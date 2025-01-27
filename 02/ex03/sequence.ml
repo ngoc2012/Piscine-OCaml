@@ -2,7 +2,7 @@ let sequence n = match n with
   | n when n <= 0 -> ""
   | _ ->
     let rec print list_int s = match list_int with
-      | [] -> ()
+      | [] -> s
       | [t] -> string_of_int t
       | h :: t ->
         print t (string_of_int h) ^ s
@@ -25,7 +25,7 @@ let sequence n = match n with
       | _ ->
         loop (n - 1) (aux (rev last []) [] 0)
     in
-    print (loop n [1]);
+    print (loop n [1]) ""
 
 let () =
   print_endline (sequence 1);;
