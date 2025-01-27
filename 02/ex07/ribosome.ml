@@ -56,11 +56,11 @@ let helix_to_string (hx: helix) =
   in
   aux hx ""
 
+let rec rev li lo = match li with
+  | [] -> lo
+  | h :: t -> rev t (h :: lo)
+
 let complementary_helix (hx: helix) : helix =
-  let rec rev li lo = match li with
-    | [] -> lo
-    | h :: t -> rev t (h :: lo)
-  in
   let rec aux hx acc =
     let n_to_c n = match n with
       | A -> 'T'
@@ -78,10 +78,6 @@ let complementary_helix (hx: helix) : helix =
   rev (aux hx []) []
 
 let generate_rna (hx: helix) : rna =
-  let rec rev li lo = match li with
-    | [] -> lo
-    | h :: t -> rev t (h :: lo)
-  in
   let rec aux hx acc =
     let pairing n = match n with
       | A -> U
@@ -117,11 +113,11 @@ let rna_to_string (r: rna) =
   aux r ""
 
 let generate_bases_triplets (r: rna) : (nucleobase * nucleobase * nucleobase) list =
-  let rec aux acc = function
-    | a :: b :: c :: rest -> aux ((a, b, c) :: acc) rest
-    | _ -> List.rev acc
+  let rec aux r acc = match r with
+    | a :: b :: c :: rest -> aux rest ((a, b, c) :: acc)
+    | _ -> acc
   in
-  aux [] r
+  rev (aux r []) []
 
 let () =
   let hx = generate_helix 100 in
