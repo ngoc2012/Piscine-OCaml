@@ -21,3 +21,6 @@ let generate_nucleotide c =
     d = "d0";
     n = char_to_n c
   }
+type helix = nucleotide list
+
+let generate_helix n =
