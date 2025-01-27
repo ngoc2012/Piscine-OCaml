@@ -7,6 +7,14 @@ type nucleotide =
     d: deoxyribose;
     n: nucleobase
   }
+type aminoacid =
+  | Ala | Arg | Asn | Asp | Cys | Gln | Glu | Gly
+  | His | Ile | Leu | Lys | Met | Phe | Pro | Ser
+  | Thr | Trp | Tyr | Val | Stop
+
+type helix = nucleotide list
+type rna = nucleobase list
+type protein = aminoacid list
 
 let generate_nucleotide c =
   let char_to_n c = match c with
@@ -23,8 +31,6 @@ let generate_nucleotide c =
     n = char_to_n c;
   }
 
-type helix = nucleotide list
-type rna = nucleobase list
 
 let generate_helix n : helix =
   let rec aux n acc = match n with
