@@ -1,5 +1,6 @@
 let sequence n = match n with
-  | n when n <= 0 -> []
+  | n when n <= 0 -> print_endline ""
+  | 1 -> print_endline "1"
   | _ ->
     let print list_int =
       | [] -> ()
@@ -18,11 +19,12 @@ let sequence n = match n with
           aux (s :: t) ((count + 1) :: h :: acc) 0
     in
     let rec loop n last = match n with
-      | 1 -> [1]
+      | 1 -> (aux last [] 0)
+      | 2 -> (aux last [] 0)
       | _ ->
         loop (n - 1) (aux last [] 0)
     in
-    print (loop n [])
+    print (loop n [1])
 
 let () =
   sequence 1;;
