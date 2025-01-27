@@ -11,7 +11,7 @@ let gray n =
     in
     let rec aux n output = match n with
       | 1 -> output
-      | _ -> aux (n - 1) (insert "0" output);
+      | _ -> aux (n - 1) (insert "1" output []);
     in
     let print strings = 
       begin
@@ -20,6 +20,7 @@ let gray n =
         print_endline "]";
       end
     in
-    print aux n ["0"; "1"]
-let () =
+    print (aux n ["0"; "1"]);
 
+let () =
+  gray 2
