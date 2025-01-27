@@ -28,13 +28,12 @@ let sequence n = match n with
     print (loop n [1]) ""
 
 let () =
-  print_endline (sequence 1);;
-  print_endline (sequence 2);;
-  print_endline (sequence 3);;
-  print_endline (sequence 4);;
-  print_endline (sequence 5);;
-  print_endline (sequence 6);;
-  print_endline (sequence 7);;
-  print_endline (sequence 8);;
-  print_endline (sequence 9);;
-  print_endline (sequence 1000);;
+  print_endline (sequence 1);
+  print_endline (sequence 2);
+  print_endline (sequence 3);
+  print_endline (sequence 4);
+  print_endline (sequence 5);
+  print_endline (sequence 6);
+  print_endline (sequence 7);
+  print_endline (sequence 8);
+  print_endline (sequence 20);
