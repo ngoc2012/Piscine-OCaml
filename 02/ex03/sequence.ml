@@ -3,9 +3,9 @@ let sequence n = match n with
   | _ ->
     let rec print list_int s = match list_int with
       | [] -> s
-      | [t] -> string_of_int t
+      | [t] -> s ^ (string_of_int t)
       | h :: t ->
-        print t (string_of_int h) ^ s
+        print t (s ^ (string_of_int h))
     in
     let rec aux l acc count = match l with
       | [] -> acc
@@ -37,3 +37,4 @@ let () =
   print_endline (sequence 7);;
   print_endline (sequence 8);;
   print_endline (sequence 9);;
+  print_endline (sequence 1000);;
