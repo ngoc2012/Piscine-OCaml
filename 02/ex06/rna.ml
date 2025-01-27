@@ -76,6 +76,27 @@ let complementary_helix (hx: helix) : helix =
   in
   rev (aux hx []) []
 
+let complementary_helix (hx: helix) : helix =
+  let rec rev li lo = match li with
+    | [] -> lo
+    | h :: t -> rev t (h :: lo)
+  in
+  let rec aux hx acc =
+    let n_to_c n = match n with
+      | A -> 'T'
+      | T -> 'A'
+      | C -> 'G'
+      | G -> 'C'
+      | _ -> 'N'
+    in
+    match hx with
+    | [] -> acc
+    | [t] -> (generate_nucleotide (n_to_c t.n)) :: acc
+    | h :: t ->
+      aux t ((generate_nucleotide (n_to_c h.n)) :: acc)
+  in
+  rev (aux hx []) []
+  
 let () =
   let hx = generate_helix 100 in
   print_endline (helix_to_string hx);
