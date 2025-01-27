@@ -8,7 +8,7 @@ type nucleotide =
     n: nucleobase
   }
 let generate_nucleotide c =
-  let char_to_n c = match c with
+  let char_to_n c = function
     | 'A' -> A
     | 'C' -> C
     | 'T' -> T
@@ -37,23 +37,24 @@ let generate_helix n =
 
 let helix_to_string helix =
   let rec aux helix acc = match helix with
+    let n_to_string n = function
+      | A -> "A"
+      | C -> "C"
+      | T -> "T"
+      | U -> "U"
+      | G -> "G"
+      | None -> " "
+    in
     | [] -> acc
+    | [t] -> acc ^ (n_to_string t.n)
     | h :: t ->
-      let group = match h.n with
-        | A -> "A"
-        | C -> "C"
-        | T -> "T"
-        | U -> "U"
-        | G -> "G"
-        | None -> " "
-      in
-      aux t (acc ^ c)
+      aux t (acc ^ (n_to_string h.n))
   in
   aux helix ""
 
 let complementary_helix helix =
   let rec aux helix acc = match helix with
-    let n_to_c n = match n with
+    let n_to_c n =
       | A -> 'T'
       | T -> 'A'
       | C -> 'G'
