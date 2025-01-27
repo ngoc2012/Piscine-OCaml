@@ -5,9 +5,13 @@ let gray n =
       | [] -> lo
       | h :: t -> rev t (h :: lo)
     in
-    let rec aux n acc =
-      if n = 1 then acc
-      else aux (n - 1) (n :: acc)
+    let rec insert s li lo = match li with
+      | [] -> lo
+      | h :: t -> insert s t ((s ^ h) :: lo)
+    in
+    let rec aux n output = match n with
+      | 1 -> output
+      | _ -> aux (n - 1) (insert "0" output);
     in
     let print strings = 
       begin
