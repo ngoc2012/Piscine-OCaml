@@ -1,12 +1,11 @@
 let sequence n = match n with
-  | n when n <= 0 -> print_endline ""
+  | n when n <= 0 -> ""
   | _ ->
-    let rec print list_int = match list_int with
+    let rec print list_int s = match list_int with
       | [] -> ()
-      | [t] -> print_int t
+      | [t] -> string_of_int t
       | h :: t ->
-        print_int h;
-        print t
+        print t (string_of_int h) ^ s
     in
     let rec aux l acc count = match l with
       | [] -> acc
@@ -27,15 +26,14 @@ let sequence n = match n with
         loop (n - 1) (aux (rev last []) [] 0)
     in
     print (loop n [1]);
-    print_endline ""
 
 let () =
-  sequence 1;;
-  sequence 2;;
-  sequence 3;;
-  sequence 4;;
-  sequence 5;;
-  sequence 6;;
-  sequence 7;;
-  sequence 8;;
-  sequence 9;;
+  print_endline (sequence 1);;
+  print_endline (sequence 2);;
+  print_endline (sequence 3);;
+  print_endline (sequence 4);;
+  print_endline (sequence 5);;
+  print_endline (sequence 6);;
+  print_endline (sequence 7);;
+  print_endline (sequence 8);;
+  print_endline (sequence 9);;
