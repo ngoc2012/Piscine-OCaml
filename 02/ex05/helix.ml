@@ -25,7 +25,7 @@ let generate_nucleotide c =
 
 type helix = nucleotide list
 
-let generate_helix n =
+let generate_helix n : helix =
   let rec aux n acc = match n with
     | 0 -> acc
     | _ ->
@@ -37,36 +37,38 @@ let generate_helix n =
   in
   aux n []
 
-let helix_to_string hx =
-  let n_to_string n = match n with
-    | A -> "A"
-    | C -> "C"
-    | T -> "T"
-    | U -> "U"
-    | G -> "G"
-    | None -> " "
-  in
-  let rec aux hx acc = match hx with
-    | [] -> acc
-    | [t] -> acc ^ (n_to_string t.n)
-    | h :: t ->
-      aux t (acc ^ (n_to_string h.n))
+let helix_to_string (hx: helix) =
+  let rec aux hx acc =
+    let n_to_string n = match n with
+      | A -> "A"
+      | C -> "C"
+      | T -> "T"
+      | U -> "U"
+      | G -> "G"
+      | None -> " "
+    in
+    match hx with
+      | [] -> acc
+      | [t] -> acc ^ (n_to_string t.n)
+      | h :: t ->
+        aux t (acc ^ (n_to_string h.n))
   in
   aux hx ""
 
-let complementary_helix hx =
+let complementary_helix (hx: helix) : helix =
   let rec rev li lo = match li with
     | [] -> lo
     | h :: t -> rev t (h :: lo)
   in
-  let n_to_c n = match n with
-    | A -> 'T'
-    | T -> 'A'
-    | C -> 'G'
-    | G -> 'C'
-    | _ -> 'N'
-  in
-  let rec aux hx acc = match hx with
+  let rec aux hx acc =
+    let n_to_c n = match n with
+      | A -> 'T'
+      | T -> 'A'
+      | C -> 'G'
+      | G -> 'C'
+      | _ -> 'N'
+    in
+    match hx with
     | [] -> acc
     | [t] -> (generate_nucleotide (n_to_c t.n)) :: acc
     | h :: t ->
@@ -75,6 +77,6 @@ let complementary_helix hx =
   rev (aux hx []) []
 
 let () =
-  let helix = generate_helix 100 in
-  print_endline (helix_to_string helix);;
-  print_endline (helix_to_string (complementary_helix helix));;
+  let hx = generate_helix 100 in
+  print_endline (helix_to_string hx);
+  print_endline (helix_to_string (complementary_helix hx));;
