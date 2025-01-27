@@ -147,7 +147,6 @@ let string_of_protein = function
     | Tyr -> "Tyr"
     | Val -> "Val"
     | Stop -> "Stop"
-    | _ -> "None"
 
 let decode_arn (r: rna) : protein =
   let triplet_to_aminoacid = function
@@ -174,11 +173,11 @@ let decode_arn (r: rna) : protein =
     | (G, U, A) | (G, U, C) | (G, U, G) | (G, U, U) -> Val
     | _ -> Stop
   in
-  let rec aux triplets acc = function
+  let rec aux triplets acc = match triplets with
     | [] -> acc
     | h :: t ->
       let p = triplet_to_aminoacid h in
-      aux t (p :: acc)
+      if p = Stop then acc else aux t (p :: acc)
   in
   rev (aux (generate_bases_triplets r) []) []
 
