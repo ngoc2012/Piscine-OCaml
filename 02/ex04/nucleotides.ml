@@ -17,7 +17,7 @@ let generate_nucleotide c =
     | _   -> None
   in
   {
-    p = "p0";
-    d = "d0";
+    p = "P";
+    d = "D";
     n = char_to_n c
   }

@@ -17,8 +17,8 @@ let generate_nucleotide c =
     | _   -> None
   in
   {
-    p = "p";
-    d = "d";
+    p = "P";
+    d = "D";
     n = char_to_n c
   }
 type helix = nucleotide list
@@ -45,11 +45,27 @@ let helix_to_string helix =
         | T -> "T"
         | U -> "U"
         | G -> "G"
-        | None -> "None"
+        | None -> " "
       in
-      aux t (acc ^ (String.make 1 c))
+      aux t (acc ^ c)
+  in
+  aux helix ""
+
+let complementary_helix helix =
+  let rec aux helix acc = match helix with
+    | [] -> acc
+    | h :: t ->
+      let c = match h.n with
+        | A -> T
+        | T -> A
+        | C -> G
+        | G -> C
+        | U -> U
+        | None -> None
+      in
+      aux t (acc ^ c)
   in
   aux helix ""
 
 let () =
-  generate_helix 10;;
+  print_endline (helix_to_string (generate_helix 10));;
