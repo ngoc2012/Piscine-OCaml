@@ -149,7 +149,7 @@ let string_of_protein = function
     | Stop -> "Stop"
     | _ -> "None"
 
-let decode_arn (rna_seq: rna) : protein =
+let decode_arn (r: rna) : protein =
   let triplet_to_aminoacid = function
     | (U, A, A) | (U, A, G) | (U, G, A) -> Stop
     | (G, C, A) | (G, C, C) | (G, C, G) | (G, C, U) -> Ala
@@ -172,14 +172,15 @@ let decode_arn (rna_seq: rna) : protein =
     | (U, G, G) -> Trp
     | (U, A, C) | (U, A, U) -> Tyr
     | (G, U, A) | (G, U, C) | (G, U, G) | (G, U, U) -> Val
-    | _ -> Stop  (* Default case for safety *)
+    | _ -> Stop
   in
-  let rec aux acc = function
+  let rec aux triplets acc = function
     | [] -> acc
-    | (U, A, A) :: _ | (U, A, G) :: _ | (U, G, A) :: _ -> List.rev (Stop :: acc)  (* Stop translation *)
-    | triplet :: rest -> aux ((triplet_to_aminoacid triplet) :: acc) rest
+    | h :: t ->
+      let p = triplet_to_aminoacid h in
+      aux t (p :: acc)
   in
-  aux [] (generate_bases_triplets rna_seq)
+  rev (aux (generate_bases_triplets r) []) []
 
 let () =
   let hx = generate_helix 100 in
