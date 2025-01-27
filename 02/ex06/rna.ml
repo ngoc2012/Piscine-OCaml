@@ -88,7 +88,7 @@ let generate_rna (hx: helix) : rna =
       | T -> A
       | C -> G
       | G -> C
-      | _ -> N
+      | _ -> None
     in
     match hx with
     | [] -> acc
@@ -98,7 +98,27 @@ let generate_rna (hx: helix) : rna =
   in
   rev (aux hx []) []
 
+let rna_to_string (r: rna) =
+  let rec aux r acc =
+    let n_to_string n = match n with
+      | A -> "A"
+      | C -> "C"
+      | T -> "T"
+      | U -> "U"
+      | G -> "G"
+      | None -> " "
+    in
+    match r with
+      | [] -> acc
+      | [t] -> acc ^ (n_to_string t)
+      | h :: t ->
+        aux t (acc ^ (n_to_string h))
+  in
+  aux r ""
+
 let () =
   let hx = generate_helix 100 in
   print_endline (helix_to_string hx);
-  print_endline (helix_to_string (complementary_helix hx));;
+  print_endline (helix_to_string (complementary_helix hx));
+  let r = generate_rna hx in
+  print_endline (rna_to_string r);;
