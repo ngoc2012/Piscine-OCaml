@@ -17,10 +17,39 @@ let generate_nucleotide c =
     | _   -> None
   in
   {
-    p = "p0";
-    d = "d0";
+    p = "p";
+    d = "d";
     n = char_to_n c
   }
 type helix = nucleotide list
 
 let generate_helix n =
+  let rec aux n acc = match n with
+    | 0 -> acc
+    | _ ->
+      let c =
+        let bases = ['A'; 'C'; 'T'; 'U'; 'G'] in
+        List.nth bases (Random.int (List.length bases))
+      in
+      aux (n - 1) ((generate_nucleotide c) :: acc)
+  in
+  aux n []
+
+let helix_to_string helix =
+  let rec aux helix acc = match helix with
+    | [] -> acc
+    | h :: t ->
+      let c = match h.n with
+        | A -> "A"
+        | C -> "C"
+        | T -> "T"
+        | U -> "U"
+        | G -> "G"
+        | None -> "None"
+      in
+      aux t (acc ^ (String.make 1 c))
+  in
+  aux helix ""
+
+let () =
+  generate_helix 10;;
