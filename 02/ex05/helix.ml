@@ -39,7 +39,7 @@ let helix_to_string helix =
   let rec aux helix acc = match helix with
     | [] -> acc
     | h :: t ->
-      let c = match h.n with
+      let group = match h.n with
         | A -> "A"
         | C -> "C"
         | T -> "T"
@@ -53,19 +53,21 @@ let helix_to_string helix =
 
 let complementary_helix helix =
   let rec aux helix acc = match helix with
+    let n_to_c n = match n with
+      | A -> 'T'
+      | T -> 'A'
+      | C -> 'G'
+      | G -> 'C'
+      | _ -> 'N'
+    in
     | [] -> acc
+    | [t] -> acc ^ (generate_nucleotide (n_to_c t.n))
     | h :: t ->
-      let c = match h.n with
-        | A -> T
-        | T -> A
-        | C -> G
-        | G -> C
-        | U -> U
-        | None -> None
-      in
-      aux t (acc ^ c)
+      aux t (acc ^ (generate_nucleotide (n_to_c h.n)))
   in
   aux helix ""
 
 let () =
-  print_endline (helix_to_string (generate_helix 10));;
+  let helix = generate_helix 10 in
+  print_endline (helix_to_string helix);
+  print_endline (complementary_helix helix);
