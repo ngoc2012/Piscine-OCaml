@@ -1,8 +1,7 @@
 let sequence n = match n with
   | n when n <= 0 -> print_endline ""
-  | 1 -> print_endline "1"
   | _ ->
-    let print list_int =
+    let rec print list_int = match list_int with
       | [] -> ()
       | [t] -> print_int t
       | h :: t ->
@@ -18,13 +17,25 @@ let sequence n = match n with
         else
           aux (s :: t) ((count + 1) :: h :: acc) 0
     in
-    let rec loop n last = match n with
-      | 1 -> (aux last [] 0)
-      | 2 -> (aux last [] 0)
-      | _ ->
-        loop (n - 1) (aux last [] 0)
+    let rec rev li lo = match li with
+      | [] -> lo
+      | h :: t -> rev t (h :: lo)
     in
-    print (loop n [1])
+    let rec loop n last = match n with
+      | 1 -> last
+      | _ ->
+        loop (n - 1) (aux (rev last []) [] 0)
+    in
+    print (loop n [1]);
+    print_endline ""
 
 let () =
   sequence 1;;
+  sequence 2;;
+  sequence 3;;
+  sequence 4;;
+  sequence 5;;
+  sequence 6;;
+  sequence 7;;
+  sequence 8;;
+  sequence 9;;
