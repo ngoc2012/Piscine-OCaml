@@ -12,3 +12,5 @@
 03/Test_knight.csv
 03/Train_knight.csv
 00/subject/customer/*.csv
+**/*.o
+*.o
