@@ -152,16 +152,24 @@ struct
   type t = Card.t list
 
   (** Shuffle a list using the Fisher-Yates algorithm *)
+  let swap lst i j =
+    let rec aux index acc = function
+      | [] -> List.rev acc
+      | h :: t when index = i -> aux (index + 1) (List.nth lst j :: acc) t
+      | h :: t when index = j -> aux (index + 1) (List.nth lst i :: acc) t
+      | h :: t -> aux (index + 1) (h :: acc) t
+    in
+    if i = j || i < 0 || j < 0 || i >= List.length lst || j >= List.length lst then
+      lst
+    else
+      aux 0 [] lst
+    
   let shuffle lst =
-    let array = Array.of_list lst in
-    let n = Array.length array in
-    for i = n - 1 downto 1 do
-      let j = Random.int (i + 1) in
-      let temp = array.(i) in
-      array.(i) <- array.(j);
-      array.(j) <- temp;
-    done;
-    Array.to_list array
+    let len = List.length lst in
+    let rec loop l n = match n with
+      | n when n < 3 -> lst
+      | _ -> loop (swap lst (Random.int (len - 1 - n)) n) (n - 1)
+    in loop lst len
 
   (** Creates a new deck of 52 cards in random order. *)
   let newDeck () =
