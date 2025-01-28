@@ -127,7 +127,7 @@ module Card = struct
     if compare card1 card2 <= 0 then card1 else card2
 
   let best cards =
-    let rec find c = match c with
+    let find c = match c with
       | [] -> invalid_arg "Card.best"	
       | [h] -> h
       | h :: s :: t -> find (max h s :: t)
