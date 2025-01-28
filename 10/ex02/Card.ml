@@ -1,3 +1,20 @@
+type t = Spade | Heart | Diamond | Club
+
+let all = [Spade; Heart; Diamond; Club]
+
+let toString = function
+  | Spade -> "S"
+  | Heart -> "H"
+  | Diamond -> "D"
+  | Club -> "C"
+
+let toStringVerbose = function
+  | Spade -> "Spade"
+  | Heart -> "Heart"
+  | Diamond -> "Diamond"
+  | Club -> "Club"
+
+
 type t = T2 | T3 | T4 | T5 | T6 | T7 | T8 | T9 | T10 | Jack | Queen | King | As
 
 let all = [T2; T3; T4; T5; T6; T7; T8; T9; T10; Jack; Queen; King; As]
