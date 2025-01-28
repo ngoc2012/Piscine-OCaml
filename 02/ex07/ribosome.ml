@@ -56,7 +56,6 @@ let helix_to_string (hx: helix) =
     in
     match hx with
       | [] -> acc
-      | [t] -> acc ^ (n_to_string t.n)
       | h :: t ->
         aux t (acc ^ (n_to_string h.n))
   in
@@ -77,7 +76,6 @@ let complementary_helix (hx: helix) : helix =
     in
     match hx with
     | [] -> acc
-    | [t] -> (generate_nucleotide (n_to_c t.n)) :: acc
     | h :: t ->
       aux t ((generate_nucleotide (n_to_c h.n)) :: acc)
   in
@@ -112,7 +110,6 @@ let rna_to_string (r: rna) =
     in
     match r with
       | [] -> acc
-      | [t] -> acc ^ (n_to_string t)
       | h :: t ->
         aux t (acc ^ (n_to_string h))
   in
@@ -147,6 +144,13 @@ let string_of_protein = function
     | Tyr -> "Tyr"
     | Val -> "Val"
     | Stop -> "Stop"
+
+let print_protein (p: protein) =
+  let rec aux p acc = match p with
+    | [] -> acc
+    | h :: t -> aux t (acc ^ (string_of_protein h))
+  in
+  print_endline (aux p "")
 
 let decode_arn (r: rna) : protein =
   let triplet_to_aminoacid = function
