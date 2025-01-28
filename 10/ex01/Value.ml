@@ -12,10 +12,53 @@ let toInt x =
   in check all 0
 
 (** returns "2", ..., "10", "J", "Q", "K" or "A" *)
-val toString : t -> string
+let toString = function
+  | T2 -> "2"
+  | T3 -> "3"
+  | T4 -> "4"
+  | T5 -> "5"
+  | T6 -> "6"
+  | T7 -> "7"
+  | T8 -> "8"
+  | T9 -> "9"
+  | T10 -> "10"
+  | Jack -> "J"
+  | Queen -> "Q"
+  | King -> "K"
+  | As -> "A"
+
 (** returns "2", ..., "10", "Jack", "Queen", "King" or "As" *)
-val toStringVerbose : t -> string
+let toStringVerbose = function
+  | T2 -> "2"
+  | T3 -> "3"
+  | T4 -> "4"
+  | T5 -> "5"
+  | T6 -> "6"
+  | T7 -> "7"
+  | T8 -> "8"
+  | T9 -> "9"
+  | T10 -> "10"
+  | Jack -> "Jack"
+  | Queen -> "Queen"
+  | King -> "King"
+  | As -> "As"
+
 (** Returns the next value, or calls invalid_arg if argument is As *)
-val next : t -> t
+let next x =
+  let rec check a = match a with
+    | [] -> invalid_arg "Value.next"
+    | h :: s :: t ->
+      if h = x then s else check (s :: t)
+  in check all    
+
 (** Returns the previous value, or calls invalid_arg if argument is T2 *)
 val previous : t -> t
+  let rec check a = match a with
+    | h :: s :: t ->
+      if h = x then invalid_arg "Value.previous"
+      else if s = x then s
+      else check (s :: t)
+  in check all    
+
+let () =
+
