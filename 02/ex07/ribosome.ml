@@ -97,7 +97,7 @@ let generate_rna (hx: helix) : rna =
       if pair = None then
         aux t acc
       else
-        aux t ((pairing h.n) :: acc)
+        aux t (pair :: acc)
   in
   rev (aux hx []) []
 
@@ -120,7 +120,8 @@ let generate_bases_triplets (r: rna) : (nucleobase * nucleobase * nucleobase) li
 let print_triplets (triplets: (nucleobase * nucleobase * nucleobase) list) =
   let rec aux triplets acc = match triplets with
     | [] -> acc
-    | (a, b, c) :: rest -> aux rest (acc ^ ( a) ^ (string_of_int b) ^ (string_of_int c))
+    | (a, b, c) :: rest ->
+      aux rest (acc ^ (string_of_nucleobase a) ^ (string_of_nucleobase b) ^ (string_of_nucleobase c) ^ "|")
   in
   print_endline (aux triplets "")
 
@@ -150,7 +151,7 @@ let string_of_protein = function
 let print_protein (p: protein) =
   let rec aux p acc = match p with
     | [] -> acc
-    | h :: t -> aux t (acc ^ (string_of_protein h))
+    | h :: t -> aux t (acc ^ (string_of_protein h) ^ "|")
   in
   print_endline (aux p "")
 
@@ -183,13 +184,17 @@ let decode_arn (r: rna) : protein =
     | [] -> acc
     | h :: t ->
       let p = triplet_to_aminoacid h in
-      if p = Stop then acc else aux t (p :: acc)
+      if p = Stop then p :: acc else aux t (p :: acc)
   in
   rev (aux (generate_bases_triplets r) []) []
 
 let () =
-  let hx = generate_helix 100 in
+  let hx = generate_helix 1000 in
   print_endline (helix_to_string hx);
   print_endline (helix_to_string (complementary_helix hx));
   let r = generate_rna hx in
-  print_endline (rna_to_string r);;
+  print_endline (rna_to_string r);
+  let t = generate_bases_triplets r in
+  print_triplets t;
+  let p = decode_arn r in
+  print_protein p
