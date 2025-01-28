@@ -13,10 +13,3 @@ let toStringVerbose = function
   | Heart -> "Heart"
   | Diamond -> "Diamond"
   | Club -> "Club"
-
-
-let () =
-  print_endline (toString Spade);
-  print_endline (toStringVerbose Heart);
-  print_endline (toString Diamond);
-  print_endline (toString Club);;
