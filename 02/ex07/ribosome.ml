@@ -44,20 +44,20 @@ let generate_helix n : helix =
   in
   aux n []
 
-let n_to_string = function
+let string_of_nucleobase = function
   | A -> "A"
   | C -> "C"
   | T -> "T"
   | U -> "U"
   | G -> "G"
   | _ -> " "
-in
+
 let helix_to_string (hx: helix) =
   let rec aux hx acc =
     match hx with
       | [] -> acc
       | h :: t ->
-        aux t (acc ^ (n_to_string h.n))
+        aux t (acc ^ (string_of_nucleobase h.n))
   in
   aux hx ""
 
@@ -67,7 +67,7 @@ let rec rev li lo = match li with
 
 let complementary_helix (hx: helix) : helix =
   let rec aux hx acc =
-    let n_to_c = function
+    let char_of_nucleobase = function
       | A -> 'T'
       | T -> 'A'
       | C -> 'G'
@@ -77,7 +77,7 @@ let complementary_helix (hx: helix) : helix =
     match hx with
     | [] -> acc
     | h :: t ->
-      aux t ((generate_nucleotide (n_to_c h.n)) :: acc)
+      aux t ((generate_nucleotide (char_of_nucleobase h.n)) :: acc)
   in
   rev (aux hx []) []
 
@@ -103,18 +103,10 @@ let generate_rna (hx: helix) : rna =
 
 let rna_to_string (r: rna) =
   let rec aux r acc =
-    let n_to_string = function
-      | A -> "A"
-      | C -> "C"
-      | T -> "T"
-      | U -> "U"
-      | G -> "G"
-      | _ -> " "
-    in
     match r with
       | [] -> acc
       | h :: t ->
-        aux t (acc ^ (n_to_string h))
+        aux t (acc ^ (string_of_nucleobase h))
   in
   aux r ""
 
