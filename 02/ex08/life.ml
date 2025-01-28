@@ -188,36 +188,38 @@ let decode_arn (r: rna) : protein =
   in
   rev (aux (generate_bases_triplets r) []) []
 
-let life (seq: string) =
-  let helix_from_string s =
-    let rec aux i acc =
-      if i < 0 then acc
-      else
-        let c = String.get s i in
-        aux (i - 1) ((generate_nucleotide c) :: acc)
+let life (seq: string) = match seq with
+  | seq when String.length seq < 3 -> print_endline "Error: Sequence too short"
+  | _ ->
+    let helix_from_string s =
+      let rec aux i acc =
+        if i < 0 then acc
+        else
+          let c = String.get s i in
+          aux (i - 1) ((generate_nucleotide c) :: acc)
+      in
+      aux (String.length s - 1) []
     in
-    aux (String.length s - 1) []
-  in
 
-  let helix = helix_from_string seq in
-  print_endline "Generated Helix:";
-  print_endline (helix_to_string helix);
+    let helix = helix_from_string seq in
+    print_endline "Generated Helix:";
+    print_endline (helix_to_string helix);
 
-  let comp_helix = complementary_helix helix in
-  print_endline "\nComplementary Helix:";
-  print_endline (helix_to_string comp_helix);
+    let comp_helix = complementary_helix helix in
+    print_endline "\nComplementary Helix:";
+    print_endline (helix_to_string comp_helix);
 
-  let rna = generate_rna helix in
-  print_endline "\nGenerated RNA:";
-  print_endline (rna_to_string rna);
+    let rna = generate_rna helix in
+    print_endline "\nGenerated RNA:";
+    print_endline (rna_to_string rna);
 
-  let triplets = generate_bases_triplets rna in
-  print_endline "\nRNA Triplets:";
-  print_triplets triplets;
+    let triplets = generate_bases_triplets rna in
+    print_endline "\nRNA Triplets:";
+    print_triplets triplets;
 
-  let protein = decode_arn rna in
-  print_endline "\nGenerated Protein:";
-  print_protein protein
+    let protein = decode_arn rna in
+    print_endline "\nGenerated Protein:";
+    print_protein protein
 
 let () =
   life "";
