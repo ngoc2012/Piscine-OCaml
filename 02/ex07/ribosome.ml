@@ -44,16 +44,16 @@ let generate_helix n : helix =
   in
   aux n []
 
+let n_to_string = function
+  | A -> "A"
+  | C -> "C"
+  | T -> "T"
+  | U -> "U"
+  | G -> "G"
+  | _ -> " "
+in
 let helix_to_string (hx: helix) =
   let rec aux hx acc =
-    let n_to_string = function
-      | A -> "A"
-      | C -> "C"
-      | T -> "T"
-      | U -> "U"
-      | G -> "G"
-      | _ -> " "
-    in
     match hx with
       | [] -> acc
       | h :: t ->
@@ -92,9 +92,12 @@ let generate_rna (hx: helix) : rna =
     in
     match hx with
     | [] -> acc
-    | [t] -> (pairing t.n) :: acc
     | h :: t ->
-      aux t ((pairing h.n) :: acc)
+      let pair = pairing h.n in
+      if pair = None then
+        aux t acc
+      else
+        aux t ((pairing h.n) :: acc)
   in
   rev (aux hx []) []
 
@@ -121,6 +124,13 @@ let generate_bases_triplets (r: rna) : (nucleobase * nucleobase * nucleobase) li
     | _ -> acc
   in
   rev (aux r []) []
+
+let print_triplets (triplets: (nucleobase * nucleobase * nucleobase) list) =
+  let rec aux triplets acc = match triplets with
+    | [] -> acc
+    | (a, b, c) :: rest -> aux rest (acc ^ ( a) ^ (string_of_int b) ^ (string_of_int c))
+  in
+  print_endline (aux triplets "")
 
 let string_of_protein = function
     | Ala -> "Ala"
