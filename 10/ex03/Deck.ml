@@ -127,10 +127,10 @@ module Card = struct
     if compare card1 card2 <= 0 then card1 else card2
 
   let best cards =
-    let find c = match c with
+    let rec find c = match c with
       | [] -> invalid_arg "Card.best"	
       | [h] -> h
-      | h :: s :: t -> find (max h s :: t)
+      | h :: s :: t -> find ((max h s) :: t)
     in find cards
 
   let isOf card color = card.color = color
@@ -144,35 +144,69 @@ module Card = struct
   let isClub card = isOf card Color.Club
 end
 
+module Deck =
+struct
+  module Card = Card
+
+  (* A deck is represented as a list of cards. *)
+  type t = Card.t list
+
+  (** Shuffle a list using the Fisher-Yates algorithm *)
+  let shuffle lst =
+    let array = Array.of_list lst in
+    let n = Array.length array in
+    for i = n - 1 downto 1 do
+      let j = Random.int (i + 1) in
+      let temp = array.(i) in
+      array.(i) <- array.(j);
+      array.(j) <- temp;
+    done;
+    Array.to_list array
+
+  (** Creates a new deck of 52 cards in random order. *)
+  let newDeck () =
+    Random.self_init (); (* Initialize random seed *)
+    shuffle Card.all
+
+  (** Returns a list of the string representations of each card in the deck. *)
+  let toStringList deck =
+    List.map Card.toString deck
+
+  (** Returns a list of the verbose string representations of each card in the deck. *)
+  let toStringListVerbose deck =
+    List.map Card.toStringVerbose deck
+
+  (** Draws the first card from the deck. *)
+  let drawCard deck =
+    match deck with
+    | [] -> failwith "Deck is empty: Cannot draw a card."
+    | card :: rest -> (card, rest)
+end
+
+
 let () =
-  let open Card in
+  (* Create a new deck *)
+  let deck = Deck.newDeck () in
 
-  let card1 = newCard Value.T7 Color.Heart in
-  let card2 = newCard Value.T10 Color.Spade in
-  let card3 = newCard Value.Jack Color.Diamond in
+  (* Display the deck in different formats *)
+  Printf.printf "Deck (string representation):\n%s\n"
+    (String.concat " " (Deck.toStringList deck));
 
-  (* toString and toStringVerbose *)
-  Printf.printf "Card 1: %s\n" (toString card1); (* 7H *)
-  Printf.printf "Card 2: %s\n" (toString card2); (* 10S *)
-  Printf.printf "Card 3: %s\n" (toStringVerbose card3); (* Card(Jack, Diamond) *)
+  Printf.printf "Deck (verbose representation):\n%s\n"
+    (String.concat ", " (Deck.toStringListVerbose deck));
 
-  (* Compare *)
-  Printf.printf "Comparison between card1 and card2: %d\n" (compare card1 card2); (* negative *)
-  Printf.printf "Comparison between card2 and card3: %d\n" (compare card2 card3); (* positive *)
+  (* Draw a card from the deck *)
+  let card, remaining_deck = Deck.drawCard deck in
+  Printf.printf "Drew card: %s\n" (Deck.Card.toString card);
+  Printf.printf "Remaining deck size: %d\n" (List.length remaining_deck);
 
-  (* Max and Min *)
-  let max_card = max card1 card2 in
-  let min_card = min card2 card3 in
-  Printf.printf "Max card: %s\n" (toString max_card); (* 10S *)
-  Printf.printf "Min card: %s\n" (toString min_card); (* 10S *)
-
-  (* Best *)
-  let cards = [card1; card2; card3] in
-  let best_card = best cards in
-  Printf.printf "Best card: %s\n" (toString best_card); (* 10S *)
-
-  (* Color checks *)
-  Printf.printf "Is card1 a Heart? %b\n" (isHeart card1); (* true *)
-  Printf.printf "Is card2 a Spade? %b\n" (isSpade card2); (* true *)
-  Printf.printf "Is card3 a Diamond? %b\n" (isDiamond card3); (* true *)
-  Printf.printf "Is card1 a Club? %b\n" (isClub card1);; (* false *)
+  (* Draw all cards to demonstrate exception *)
+  let rec draw_all deck =
+    try
+      let card, rest = Deck.drawCard deck in
+      Printf.printf "Drew card: %s\n" (Deck.Card.toString card);
+      draw_all rest
+    with Failure msg ->
+      Printf.printf "Exception: %s\n" msg
+  in
+  draw_all remaining_deck

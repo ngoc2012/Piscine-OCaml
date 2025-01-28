@@ -130,7 +130,7 @@ module Card = struct
     let rec find c = match c with
       | [] -> invalid_arg "Card.best"	
       | [h] -> h
-      | h :: s :: t -> find (max h s :: t)
+      | h :: s :: t -> find ((max h s) :: t)
     in find cards
 
   let isOf card color = card.color = color
@@ -158,7 +158,7 @@ let () =
 
   (* Compare *)
   Printf.printf "Comparison between card1 and card2: %d\n" (compare card1 card2); (* negative *)
-  Printf.printf "Comparison between card2 and card3: %d\n" (compare card2 card3); (* positive *)
+  Printf.printf "Comparison between card2 and card3: %d\n" (compare card2 card3); (* negative *)
 
   (* Max and Min *)
   let max_card = max card1 card2 in
