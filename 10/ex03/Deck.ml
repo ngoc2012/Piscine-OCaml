@@ -153,14 +153,14 @@ struct
 
   (** Shuffle a list using the Fisher-Yates algorithm *)
   let swap lst i j =
+    if i = j || i < 0 || j < 0 || i >= List.length lst || j >= List.length lst then
+      lst
     let rec aux index acc lst = match lst with
       | [] -> List.rev acc
       | h :: t when index = i -> aux (index + 1) (List.nth lst j :: acc) t
       | h :: t when index = j -> aux (index + 1) (List.nth lst i :: acc) t
       | h :: t -> aux (index + 1) (h :: acc) t
     in
-    if i = j || i < 0 || j < 0 || i >= List.length lst || j >= List.length lst then
-      lst
     else
       aux 0 [] lst
     
@@ -168,7 +168,8 @@ struct
     let rec loop l n = match n with
       | n when n <= 1 -> l
       | _ ->
-        loop (swap lst (Random.int n) n) (n - 1)
+        loop lst (n - 1)
+        (* loop (swap lst (Random.int n) n) (n - 1) *)
     in loop lst ((List.length lst) - 1)
 
   (** Creates a new deck of 52 cards in random order. *)
@@ -201,7 +202,7 @@ let () =
     (String.concat " " (Deck.toStringList deck));
 
   Printf.printf "Deck (verbose representation):\n%s\n"
-    (String.concat ", " (Deck.toStringListVerbose deck));
+    (String.concat "\n" (Deck.toStringListVerbose deck));
 
   (* Draw a card from the deck *)
   let card, remaining_deck = Deck.drawCard deck in
