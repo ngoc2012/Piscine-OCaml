@@ -24,11 +24,8 @@ module Card : sig
   val toStringVerbose : t -> string
 end
 
-module Deck : sig
-  type t
-  val newDeck : unit -> t
-  val toStringList : t -> string list
-  val toStringListVerbose : t -> string list
-  val drawCard : t -> Card.t * t
-end
-
+type t = Card.t list
+val newDeck : unit -> t
+val toStringList : t -> string list
+val toStringListVerbose : t -> string list
+val drawCard : t -> Card.t * t

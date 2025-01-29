@@ -3,5 +3,5 @@ all:
 	ocamlopt -c Deck.mli
 	ocamlopt -c Deck.ml
 	ocamlopt -c main.ml
-	ocamlopt -o main deck.cmx main.cmx
+	ocamlopt -o main Deck.cmx main.cmx
 	./main
