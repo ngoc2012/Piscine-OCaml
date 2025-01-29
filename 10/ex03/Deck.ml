@@ -157,31 +157,26 @@ struct
     if i = j || i < 0 || j < 0 || i >= len || j >= len then
       lst
     else
-      let rec aux lst k acc = match lst with
+      let rec aux t k acc = match t with
 	| [] -> List.rev acc
-        | h :: t when k = len -> List.rev acc
-        | h :: t when k = i ->
-		print_endline ("(k=i)k = " ^ (string_of_int k) ^ ", i = " ^ (string_of_int i) ^ ", j = " ^ (string_of_int j));
-		aux lst (k + 1) (List.nth lst j :: acc)
-        | h :: t when k = j ->
-		print_endline ("(k=j)k = " ^ (string_of_int k) ^ ", i = " ^ (string_of_int i) ^ ", j = " ^ (string_of_int j));
-		aux lst (k + 1) (List.nth lst i :: acc)
-        | h :: t -> aux lst (k + 1) (h :: acc)
+        | h :: t when k = i -> aux t (k + 1) (List.nth lst j :: acc)
+        | h :: t when k = j -> aux t (k + 1) (List.nth lst i :: acc)
+        | h :: t -> aux t (k + 1) (h :: acc)
       in aux lst 0 []
     
   let shuffle lst =
+    Random.self_init (); (* Initialize random seed *)
     let rec loop l n = match n with
       | n when n <= 1 -> l
       | _ ->
         loop lst (n - 1)
         (* loop (swap lst (Random.int n) n) (n - 1) *)
     in(* loop lst ((List.length lst) - 1) *)
-    swap lst 0 ((List.length lst) - 1)
+    swap lst 5 ((List.length lst) - 6)
 
   (** Creates a new deck of 52 cards in random order. *)
   let newDeck () =
-    Random.self_init (); (* Initialize random seed *)
-    shuffle Card.all
+    Card.all
 
   (** Returns a list of the string representations of each card in the deck. *)
   let toStringList deck =
@@ -207,21 +202,8 @@ let () =
   Printf.printf "Deck (string representation):\n%s\n"
     (String.concat " " (Deck.toStringList deck));
 
-  Printf.printf "Deck (verbose representation):\n%s\n"
-    (String.concat "\n" (Deck.toStringListVerbose deck));
+  (* Shuffle the deck *)
+  let deck = Deck.shuffle deck in
+  Printf.printf "Deck (string representation):\n%s\n"
+    (String.concat " " (Deck.toStringList deck));
 
-  (* Draw a card from the deck *)
-  let card, remaining_deck = Deck.drawCard deck in
-  Printf.printf "Drew card: %s\n" (Deck.Card.toString card);
-  Printf.printf "Remaining deck size: %d\n" (List.length remaining_deck);
-
-  (* Draw all cards to demonstrate exception *)
-  let rec draw_all deck =
-    try
-      let card, rest = Deck.drawCard deck in
-      Printf.printf "Drew card: %s\n" (Deck.Card.toString card);
-      draw_all rest
-    with Failure msg ->
-      Printf.printf "Exception: %s\n" msg
-  in
-  draw_all remaining_deck
