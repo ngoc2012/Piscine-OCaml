@@ -1,5 +1,10 @@
-  Printf.printf "Deck (verbose representation):\n%s\n";
-    (*(String.concat "\n" (Deck.toStringListVerbose deck));*)
+let () =
+  (* Create a new deck *)
+  let deck = Deck.newDeck () in
+
+  (* Display the deck in different formats *)
+  Printf.printf "Deck (string representation):\n%s\n"
+    (String.concat " " (Deck.toStringList deck));
 
   (* Draw a card from the deck *)
   let card, remaining_deck = Deck.drawCard deck in

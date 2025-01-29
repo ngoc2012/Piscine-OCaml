@@ -144,9 +144,7 @@ module Card = struct
   let isClub card = isOf card Color.Club
 end
 
-module Deck =
-struct
-  module Card = Card
+module Deck = struct
 
   (* A deck is represented as a list of cards. *)
   type t = Card.t list
@@ -188,13 +186,3 @@ struct
     | [] -> failwith "Deck is empty: Cannot draw a card."
     | card :: rest -> (card, rest)
 end
-
-
-let () =
-  (* Create a new deck *)
-  let deck = Deck.newDeck () in
-
-  (* Display the deck in different formats *)
-  Printf.printf "Deck (string representation):\n%s\n"
-    (String.concat " " (Deck.toStringList deck));
-
