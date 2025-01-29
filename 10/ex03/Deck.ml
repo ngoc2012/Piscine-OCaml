@@ -157,13 +157,17 @@ struct
     if i = j || i < 0 || j < 0 || i >= len || j >= len then
       lst
     else
-      let rec aux k acc lst = match lst with
+      let rec aux lst k acc = match lst with
 	| [] -> List.rev acc
         | h :: t when k = len -> List.rev acc
-        | h :: t when k = i -> aux (k + 1) (List.nth lst j :: acc) t
-        | h :: t when k = j -> aux (k + 1) (List.nth lst i :: acc) t
-        | h :: t -> aux (k + 1) (h :: acc) t
-      in aux 0 [] lst
+        | h :: t when k = i ->
+		print_endline ("(k=i)k = " ^ (string_of_int k) ^ ", i = " ^ (string_of_int i) ^ ", j = " ^ (string_of_int j));
+		aux lst (k + 1) (List.nth lst j :: acc)
+        | h :: t when k = j ->
+		print_endline ("(k=j)k = " ^ (string_of_int k) ^ ", i = " ^ (string_of_int i) ^ ", j = " ^ (string_of_int j));
+		aux lst (k + 1) (List.nth lst i :: acc)
+        | h :: t -> aux lst (k + 1) (h :: acc)
+      in aux lst 0 []
     
   let shuffle lst =
     let rec loop l n = match n with
