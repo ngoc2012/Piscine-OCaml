@@ -156,8 +156,8 @@ struct
     if i = j || i < 0 || j < 0 || i >= List.length lst || j >= List.length lst then
       lst
     else
-      let rec aux k acc lst = match k with
-        | [] -> List.rev acc
+      let rec aux k acc lst = match lst with
+        | h :: t when k = j -> List.rev acc
         | h :: t when k = i -> aux (index + 1) (List.nth lst j :: acc) t
         | h :: t when k = j -> aux (index + 1) (List.nth lst i :: acc) t
         | h :: t -> aux (k + 1) (h :: acc) t
