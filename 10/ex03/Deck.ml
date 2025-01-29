@@ -158,6 +158,7 @@ struct
       lst
     else
       let rec aux k acc lst = match lst with
+	| [] -> List.rev acc
         | h :: t when k = len -> List.rev acc
         | h :: t when k = i -> aux (k + 1) (List.nth lst j :: acc) t
         | h :: t when k = j -> aux (k + 1) (List.nth lst i :: acc) t
@@ -170,7 +171,8 @@ struct
       | _ ->
         loop lst (n - 1)
         (* loop (swap lst (Random.int n) n) (n - 1) *)
-    in loop lst ((List.length lst) - 1)
+    in(* loop lst ((List.length lst) - 1) *)
+    swap lst 0 ((List.length lst) - 1)
 
   (** Creates a new deck of 52 cards in random order. *)
   let newDeck () =
