@@ -1,3 +1,5 @@
+
+module Card = struct
 module Color = struct
   type t = Spade | Heart | Diamond | Club
   
@@ -85,8 +87,6 @@ module Value = struct
         else check (s :: t)
     in check all
 end
-
-module Card = struct
   type t = { value: Value.t; color: Color.t }
 
   let newCard value color = { value; color }
