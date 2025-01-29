@@ -166,17 +166,21 @@ struct
     
   let shuffle lst =
     Random.self_init (); (* Initialize random seed *)
-    let rec loop l n = match n with
-      | n when n <= 1 -> l
-      | _ ->
-        loop lst (n - 1)
-        (* loop (swap lst (Random.int n) n) (n - 1) *)
-    in(* loop lst ((List.length lst) - 1) *)
-    swap lst 5 ((List.length lst) - 6)
+    if List.length lst <= 1 then lst
+    else if List.length lst = 2 then
+      if Random.bool () then
+	lst
+      else
+        swap lst 0 1
+    else
+      let rec loop l n = match n with
+        | n when n <= 1 -> l
+        | _ ->
+          loop (swap lst (Random.int n) n) (n - 1)
+      in loop lst ((List.length lst) - 1)
 
   (** Creates a new deck of 52 cards in random order. *)
-  let newDeck () =
-    Card.all
+  let newDeck () = Card.all
 
   (** Returns a list of the string representations of each card in the deck. *)
   let toStringList deck =
