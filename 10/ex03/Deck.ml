@@ -22,13 +22,11 @@ module Value = struct
   
   let all = [T2; T3; T4; T5; T6; T7; T8; T9; T10; Jack; Queen; King; As]
   
-  (** Interger representation of a card value, from 1 for T2 to 13 for As *)
-  let toInt x = function
+  let toInt = function
     | T2 -> 2 | T3 -> 3 | T4 -> 4 | T5 -> 5 | T6 -> 6
     | T7 -> 7 | T8 -> 8 | T9 -> 9 | T10 -> 10
     | Jack -> 11 | Queen -> 12 | King -> 13 | As -> 14
   
-  (** returns "2", ..., "10", "J", "Q", "K" or "A" *)
   let toString = function
     | T2 -> "2"
     | T3 -> "3"
@@ -44,7 +42,6 @@ module Value = struct
     | King -> "K"
     | As -> "A"
   
-  (** returns "2", ..., "10", "Jack", "Queen", "King" or "As" *)
   let toStringVerbose = function
     | T2 -> "2"
     | T3 -> "3"
@@ -60,7 +57,6 @@ module Value = struct
     | King -> "King"
     | As -> "As"
   
-  (** Returns the next value, or calls invalid_arg if argument is As *)
   let next x =
     let rec check a = match a with
       | [] -> invalid_arg "Value.next"
@@ -69,7 +65,6 @@ module Value = struct
         if h = x then s else check (s :: t)
     in check all    
   
-  (** Returns the previous value, or calls invalid_arg if argument is T2 *)
   let previous x =
     let rec check a = match a with
       | [] -> invalid_arg "Value.previous"
@@ -142,11 +137,8 @@ module Card = struct
 end
 
 module Deck = struct
-
-  (* A deck is represented as a list of cards. *)
   type t = Card.t list
 
-  (** Shuffle a list using the Fisher-Yates algorithm *)
   let swap lst i j =
     let len = List.length lst in
     if i = j || i < 0 || j < 0 || i >= len || j >= len then
@@ -166,18 +158,14 @@ module Deck = struct
       | _ -> loop (swap l (Random.int n) n) (n - 1)
     in loop lst ((List.length lst) - 1)
 
-  (** Creates a new deck of 52 cards in random order. *)
   let newDeck () = Card.all
 
-  (** Returns a list of the string representations of each card in the deck. *)
   let toStringList deck =
     List.map Card.toString deck
 
-  (** Returns a list of the verbose string representations of each card in the deck. *)
   let toStringListVerbose deck =
     List.map Card.toStringVerbose deck
 
-  (** Draws the first card from the deck. *)
   let drawCard deck =
     match deck with
     | [] -> failwith "Deck is empty: Cannot draw a card."

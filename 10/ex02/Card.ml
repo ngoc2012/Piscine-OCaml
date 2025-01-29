@@ -23,7 +23,7 @@ module Value = struct
   let all = [T2; T3; T4; T5; T6; T7; T8; T9; T10; Jack; Queen; King; As]
   
   (** Interger representation of a card value, from 1 for T2 to 13 for As *)
-  let toInt x = function
+  let toInt = function
     | T2 -> 2 | T3 -> 3 | T4 -> 4 | T5 -> 5 | T6 -> 6
     | T7 -> 7 | T8 -> 8 | T9 -> 9 | T10 -> 10
     | Jack -> 11 | Queen -> 12 | King -> 13 | As -> 14
