@@ -21,4 +21,3 @@ let () =
       Printf.printf "Exception: %s\n" msg
   in
   draw_all remaining_deck
-

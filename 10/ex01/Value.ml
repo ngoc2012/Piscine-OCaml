@@ -3,13 +3,10 @@ type t = T2 | T3 | T4 | T5 | T6 | T7 | T8 | T9 | T10 | Jack | Queen | King | As
 let all = [T2; T3; T4; T5; T6; T7; T8; T9; T10; Jack; Queen; King; As]
 
 (** Interger representation of a card value, from 1 for T2 to 13 for As *)
-let toInt x =
-  let rec check a index = match a with
-    | [] -> -1
-    | h :: t ->
-      if h = x then index + 1
-      else check t index + 1
-  in check all 0
+let toInt x = function
+  | T2 -> 2 | T3 -> 3 | T4 -> 4 | T5 -> 5 | T6 -> 6
+  | T7 -> 7 | T8 -> 8 | T9 -> 9 | T10 -> 10
+  | Jack -> 11 | Queen -> 12 | King -> 13 | As -> 14
 
 (** returns "2", ..., "10", "J", "Q", "K" or "A" *)
 let toString = function
