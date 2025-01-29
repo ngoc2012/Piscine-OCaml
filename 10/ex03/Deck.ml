@@ -153,13 +153,14 @@ struct
 
   (** Shuffle a list using the Fisher-Yates algorithm *)
   let swap lst i j =
-    if i = j || i < 0 || j < 0 || i >= List.length lst || j >= List.length lst then
+    let len = List.length lst in
+    if i = j || i < 0 || j < 0 || i >= len || j >= len then
       lst
     else
       let rec aux k acc lst = match lst with
-        | h :: t when k = j -> List.rev acc
-        | h :: t when k = i -> aux (index + 1) (List.nth lst j :: acc) t
-        | h :: t when k = j -> aux (index + 1) (List.nth lst i :: acc) t
+        | h :: t when k = len -> List.rev acc
+        | h :: t when k = i -> aux (k + 1) (List.nth lst j :: acc) t
+        | h :: t when k = j -> aux (k + 1) (List.nth lst i :: acc) t
         | h :: t -> aux (k + 1) (h :: acc) t
       in aux 0 [] lst
     
