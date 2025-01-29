@@ -165,19 +165,11 @@ struct
       in aux lst 0 []
     
   let shuffle lst =
-    Random.self_init (); (* Initialize random seed *)
-    if List.length lst <= 1 then lst
-    else if List.length lst = 2 then
-      if Random.bool () then
-	lst
-      else
-        swap lst 0 1
-    else
-      let rec loop l n = match n with
-        | n when n <= 1 -> l
-        | _ ->
-          loop (swap lst (Random.int n) n) (n - 1)
-      in loop lst ((List.length lst) - 1)
+    Random.self_init ();
+    let rec loop l n = match n with
+      | n when n <= 1 -> l
+      | _ -> loop (swap l (Random.int n) n) (n - 1)
+    in loop lst ((List.length lst) - 1)
 
   (** Creates a new deck of 52 cards in random order. *)
   let newDeck () = Card.all
@@ -203,11 +195,6 @@ let () =
   let deck = Deck.newDeck () in
 
   (* Display the deck in different formats *)
-  Printf.printf "Deck (string representation):\n%s\n"
-    (String.concat " " (Deck.toStringList deck));
-
-  (* Shuffle the deck *)
-  let deck = Deck.shuffle deck in
   Printf.printf "Deck (string representation):\n%s\n"
     (String.concat " " (Deck.toStringList deck));
 
