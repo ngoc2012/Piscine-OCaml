@@ -155,14 +155,13 @@ struct
   let swap lst i j =
     if i = j || i < 0 || j < 0 || i >= List.length lst || j >= List.length lst then
       lst
-    let rec aux index acc lst = match lst with
-      | [] -> List.rev acc
-      | h :: t when index = i -> aux (index + 1) (List.nth lst j :: acc) t
-      | h :: t when index = j -> aux (index + 1) (List.nth lst i :: acc) t
-      | h :: t -> aux (index + 1) (h :: acc) t
-    in
     else
-      aux 0 [] lst
+      let rec aux k acc lst = match k with
+        | [] -> List.rev acc
+        | h :: t when k = i -> aux (index + 1) (List.nth lst j :: acc) t
+        | h :: t when k = j -> aux (index + 1) (List.nth lst i :: acc) t
+        | h :: t -> aux (k + 1) (h :: acc) t
+      in aux 0 [] lst
     
   let shuffle lst =
     let rec loop l n = match n with
