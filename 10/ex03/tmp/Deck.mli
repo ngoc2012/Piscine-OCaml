@@ -1,1 +1,3 @@
-val newDeck : unit -> int
+module Deck : sig
+  val newDeck : unit -> int
+end

@@ -1,3 +1,3 @@
 module Deck = struct
-  let newDeck () = 1
+    let newDeck () = 1
 end
