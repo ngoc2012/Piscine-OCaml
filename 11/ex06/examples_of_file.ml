@@ -1,14 +1,14 @@
 let examples_of_file filename =
   let parse_input input =
-    if input = "" then raise Empty_input;
-    let parts = String.split_on_char ',' input in
-    let numbers = 
-      List.sub parts 0 (List.length parts - 1)
-      |> List.map float_of_string 
-      |> Array.of_list
-    in
-    let label = List.nth parts (List.length parts - 1) in
-    (numbers, label)
+    if input = "" then []
+    else
+      let parts = String.split_on_char ',' input in
+      let numbers = 
+        List.sub parts 0 (List.length parts - 1)
+        |> List.map float_of_string 
+        |> Array.of_list
+      in
+      (numbers, List.nth parts (List.length parts - 1))
   in
   let file = open_in filename in
   let rec read_lines acc =
