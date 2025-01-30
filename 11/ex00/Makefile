@@ -1,2 +1,2 @@
 all:
-	ocamlopt unix.cmxa micronap.ml
+	ocamlopt -I +unix unix.cmxa micronap.ml

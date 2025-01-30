@@ -1,15 +1,12 @@
-let my_sleep () = Unix.sleep 1
-
 let () =
-  if Array.length Sys.argv < 2 then
+  if Array.length Sys.argv != 2 then (
+    print_endline "Usage: ./micronap seconds";
     exit 1
-  else
-    let arg = Sys.argv.(1) in
+  ) else
     try
-      let seconds = int_of_string arg in
+      let seconds = int_of_string Sys.argv.(1) in
       if seconds < 0 then exit 1;
-      for _ = 1 to seconds do
-        my_sleep ()
-      done
-    with Failure _ -> exit 1
-
+      Unix.sleep seconds;
+    with Failure _ ->
+      print_endline "Seconds must be an integer";
+      exit 1
