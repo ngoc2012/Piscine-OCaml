@@ -3,10 +3,11 @@ let () =
     print_endline "Usage: ./micronap seconds";
     exit 1
   ) else
-    try
-      let seconds = int_of_string Sys.argv.(1) in
-      if seconds < 0 then exit 1;
-      Unix.sleep seconds;
-    with Failure _ ->
-      print_endline "Seconds must be an integer";
-      exit 1
+    let seconds = try int_of_string Sys.argv.(1) with Failure _ ->
+      print_endline "Seconds must be an integer"; 0 in
+    if seconds < 0 then (
+       print_endline "Seconds must be a positive integer";
+       exit 1
+    );
+    if seconds > 0 then Unix.sleep seconds;
+    exit 0
