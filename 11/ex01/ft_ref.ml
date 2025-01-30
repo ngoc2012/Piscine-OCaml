@@ -1,15 +1,17 @@
-type 'a ft_ref = 'a -> 'a * ('a -> 'a ft_ref)
+type 'a ft_ref = { mutable contents: 'a }
 
-let return x = fun () -> (x, return)
+let return x = { contents = x }
 
-let get r = fst (r ())
+let get r = r.contents
 
-let set r x = snd (r ()) x
+let set r x = r.contents <- x
 
 let bind r f = f (get r)
 
 let () =
   let r = return 42 in
-  let r2 = set r 100 in
-  Printf.printf "Initial: %d\n" (get r);   (* Output: 42 *)
-  Printf.printf "After set: %d\n" (get r2) (* Output: 100 *)
+  Printf.printf "Initial value: %d\n" (get r);
+  set r 100;
+  Printf.printf "After set: %d\n" (get r);
+  let r2 = bind r (fun x -> return (x * 2)) in
+  Printf.printf "After bind: %d\n" (get r2);;
