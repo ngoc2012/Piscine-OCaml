@@ -1,12 +1,13 @@
-type 'a ft_ref = { mutable contents: 'a }
+type 'a ft_ref = { value: 'a; update: 'a -> 'a ft_ref }
 
-let return x = { contents = x }
+let return x = { value = x; update = (fun new_x -> return new_x) }
 
-let get r = r.contents
+let get r = r.value
 
-let set r x = r.contents <- x
+let set r x = r.update x
 
 let bind r f = f (get r)
+
 
 let () =
   let r = return 42 in
