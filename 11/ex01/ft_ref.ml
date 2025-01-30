@@ -10,8 +10,8 @@ let bind r f : 'b ft_ref = f (get r)
 
 let () =
   let r = return 42 in
-  Printf.printf "Initial value: %d\n" (get r);
+  print_string ("Initial value: " ^ (string_of_int (get r)) ^ "\n");
   set r 100;
-  Printf.printf "After set: %d\n" (get r);
+  print_string ("After set: " ^ (string_of_int (get r)) ^ "\n");
   let r2 = bind r (fun x -> return (x * 2)) in
   Printf.printf "After bind: %d\n" (get r2);;
