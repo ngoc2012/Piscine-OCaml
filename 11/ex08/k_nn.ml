@@ -40,7 +40,7 @@ let examples_of_file filename =
       Printf.eprintf "Error: %s\n" err;
       []
 
-let k_nearest_neighbors (train_set: radar list) (k: int) (query: radar) : string =
+let k_nearest_neighbors (k: int) (train_set: radar list) (query: radar) : string =
   let (query_vec, _) = query in
   (* Compute the distances between the query point and each point in the train set *)
   let distances = List.map (fun (vec, label) -> 
@@ -51,7 +51,16 @@ let k_nearest_neighbors (train_set: radar list) (k: int) (query: radar) : string
   let sorted_distances = List.sort (fun (d1, _) (d2, _) -> compare d1 d2) distances in
   
   (* Get the first K elements from the sorted list *)
-  let nearest_k = List.sub sorted_distances 0 (min k (List.length sorted_distances)) in
+  let take n lst =
+    let rec aux n lst acc =
+      if n <= 0 then List.rev acc
+      else
+        match lst with
+        | [] -> List.rev acc
+        | x :: xs -> aux (n - 1) xs (x :: acc)
+    in
+    aux n lst [] in
+  let nearest_k = take k sorted_distances in
   
   (* Count the occurrences of each label in the nearest K neighbors *)
   let label_count = 
@@ -89,10 +98,10 @@ let () =
   let train_data = examples_of_file "../ionosphere.train.csv" in
   let test_data = examples_of_file "../ionosphere.test.csv" in
   
-  List.iter (fun (vec, true_label) ->
-    let predicted_label = nearest_neighbor train_data (vec, "") in
+  (* List.iter (fun (vec, true_label) ->
+    let predicted_label = k_nearest_neighbors 10 train_data (vec, "") in
     Printf.printf "Predicted: %s, Actual: %s\n" predicted_label true_label
-  ) test_data
+  ) test_data; *)
 
-  let acc = accuracy nearest_neighbor test_data train_data in
+  let acc = accuracy (k_nearest_neighbors 10) test_data train_data in
   Printf.printf "Accuracy: %.2f%%\n" (acc *. 100.0)
