@@ -40,11 +40,26 @@ let examples_of_file filename =
       Printf.eprintf "Error: %s\n" err;
       []
 
+let nearest_neighbor (train_set: radar list) (query: radar) : string =
+  let (query_vec, _) = query in
+  let closest = ref (List.hd train_set) in
+  let min_dist = ref (eu_dist query_vec (fst (List.hd train_set))) in
+  
+  List.iter (fun (vec, label) ->
+    let dist = eu_dist query_vec vec in
+    if dist < !min_dist then (
+      min_dist := dist;
+      closest := (vec, label)
+    )
+  ) train_set;
+  
+  snd !closest
+  
 let () =
-  let data = examples_of_file "../ionosphere.train.csv" in
-  List.iter (fun (arr, lbl) ->
-    Printf.printf "Array: [|";
-    Array.iter (fun x -> Printf.printf "%.5f; " x) arr;
-    Printf.printf "|], Label: %s\n" lbl
-  ) data;
-  print_endline ("Number of examples: " ^ (string_of_int (List.length data)))
+  let train_data = examples_of_file "../ionosphere.train.csv" in
+  let test_data = examples_of_file "../ionosphere.test.csv" in
+  
+  List.iter (fun (vec, true_label) ->
+    let predicted_label = nearest_neighbor train_data (vec, "") in
+    Printf.printf "Predicted: %s, Actual: %s\n" predicted_label true_label
+  ) test_data
