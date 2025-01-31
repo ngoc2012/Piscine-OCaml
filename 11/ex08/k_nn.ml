@@ -104,6 +104,6 @@ let () =
   ) test_data; *)
 
   for k = 1 to 10 do
-    let acc = accuracy (fun query -> k_nearest_neighbors train_data k query) test_data train_data in
+    let acc = accuracy (fun train_data query -> k_nearest_neighbors train_data k query) test_data train_data in
     Printf.printf "Accuracy with k = %d: %.2f%%\n" k (acc *. 100.0)
   done;;
