@@ -8,15 +8,16 @@ let () =
   try
     let read_file filename =
       let ic = open_in filename in
-      let rec read_lines acc =
-        try
+      let lines = ref [] in
+      try
+        while true do
           let line = input_line ic in
-          read_lines (line :: acc)
-        with End_of_file -> 
-          close_in ic;
-          List.rev acc
-      in
-      read_lines []
+          lines := line :: !lines
+        done;
+        [] (* this line will never be reached, as the loop exits on EOF *)
+      with End_of_file -> 
+        close_in ic;
+        List.rev !lines
     in
     let jokes = read_file filename in
     if List.length jokes = 0 then
