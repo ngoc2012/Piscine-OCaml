@@ -40,7 +40,7 @@ let examples_of_file filename =
       Printf.eprintf "Error: %s\n" err;
       []
 
-let k_nearest_neighbors (k: int) (train_set: radar list) (query: radar) : string =
+let k_nearest_neighbors (train_set: radar list) (k: int) (query: radar) : string =
   let (query_vec, _) = query in
   (* Compute the distances between the query point and each point in the train set *)
   let distances = List.map (fun (vec, label) -> 
@@ -99,9 +99,11 @@ let () =
   let test_data = examples_of_file "../ionosphere.test.csv" in
   
   (* List.iter (fun (vec, true_label) ->
-    let predicted_label = k_nearest_neighbors 10 train_data (vec, "") in
+    let predicted_label = k_nearest_neighbors k train_data (vec, "") in
     Printf.printf "Predicted: %s, Actual: %s\n" predicted_label true_label
   ) test_data; *)
 
-  let acc = accuracy (k_nearest_neighbors 10) test_data train_data in
-  Printf.printf "Accuracy: %.2f%%\n" (acc *. 100.0)
+  for k = 1 to 10 do
+    let acc = accuracy (fun query -> k_nearest_neighbors train_data k query) test_data train_data in
+    Printf.printf "Accuracy with k = %d: %.2f%%\n" k (acc *. 100.0)
+  done;;
