@@ -11,14 +11,16 @@ let examples_of_file filename =
     try
     	let line = input_line file in
         if String.length line > 0 then
-    	  read_lines ((parse_input line) :: acc)
+          try
+    	    read_lines ((parse_input line) :: acc)
+	  with Failure _ ->
+	    print_endline ("An unexpected error occurred at line:\n" ^ line);
+	    read_lines acc
         else
           read_lines acc
-    with
-      | End_of_file ->
-        close_in file;
-        List.rev acc
-      | _ -> Printf.eprintf "An unexpected error occurred.\n"
+    with End_of_file ->
+      close_in file;
+      List.rev acc
   in
   read_lines []
 
@@ -29,4 +31,4 @@ let () =
     Array.iter (fun x -> Printf.printf "%.5f; " x) arr;
     Printf.printf "|], Label: %s\n" lbl
   ) data;
-  print_endline ("Number of examples: " ^ (string_of_int (List.length data)));;
+  print_endline ("Number of examples: " ^ (string_of_int (List.length data)))
