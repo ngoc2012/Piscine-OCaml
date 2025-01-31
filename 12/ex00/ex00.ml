@@ -1,3 +1,14 @@
+(*
+  Set functor:
+
+  module type OrderedType = sig
+    type t
+    val compare : t -> t -> int
+  end
+
+  module Make : functor (Ord : OrderedType) -> Set.S
+*)
+
 module StringSet = Set.Make(String)
 
 let () =
