@@ -40,20 +40,41 @@ let examples_of_file filename =
       Printf.eprintf "Error: %s\n" err;
       []
 
-let nearest_neighbor (train_set: radar list) (query: radar) : string =
+let k_nearest_neighbors (train_set: radar list) (k: int) (query: radar) : string =
   let (query_vec, _) = query in
-  let closest = ref (List.hd train_set) in
-  let min_dist = ref (eu_dist query_vec (fst (List.hd train_set))) in
+  (* Compute the distances between the query point and each point in the train set *)
+  let distances = List.map (fun (vec, label) -> 
+    (eu_dist query_vec vec, label)
+  ) train_set in
+
+  (* Sort the distances in ascending order *)
+  let sorted_distances = List.sort (fun (d1, _) (d2, _) -> compare d1 d2) distances in
   
-  List.iter (fun (vec, label) ->
-    let dist = eu_dist query_vec vec in
-    if dist < !min_dist then (
-      min_dist := dist;
-      closest := (vec, label)
-    )
-  ) train_set;
+  (* Get the first K elements from the sorted list *)
+  let nearest_k = List.sub sorted_distances 0 (min k (List.length sorted_distances)) in
   
-  snd !closest
+  (* Count the occurrences of each label in the nearest K neighbors *)
+  let label_count = 
+    List.fold_left (fun acc (_, label) ->
+      let count = try List.assoc label acc with Not_found -> 0 in
+      (label, count + 1) :: List.remove_assoc label acc
+    ) [] nearest_k
+  in
+
+  (* Find the label with the maximum count *)
+  let most_common_label = 
+    List.fold_left (fun acc (label, count) ->
+      match acc with
+      | None -> Some (label, count)
+      | Some (_, max_count) when count > max_count -> Some (label, count)
+      | _ -> acc
+    ) None label_count 
+  in
+
+  (* Return the most common label *)
+  match most_common_label with
+  | Some (label, _) -> label
+  | None -> failwith "No neighbors found"
 
 let accuracy f (test_set: radar list) (train_set: radar list) : float =
   let correct_predictions = 
@@ -63,7 +84,7 @@ let accuracy f (test_set: radar list) (train_set: radar list) : float =
     ) 0 test_set
   in
   float_of_int correct_predictions /. float_of_int (List.length test_set)
-
+  
 let () =
   let train_data = examples_of_file "../ionosphere.train.csv" in
   let test_data = examples_of_file "../ionosphere.test.csv" in
@@ -71,7 +92,7 @@ let () =
   List.iter (fun (vec, true_label) ->
     let predicted_label = nearest_neighbor train_data (vec, "") in
     Printf.printf "Predicted: %s, Actual: %s\n" predicted_label true_label
-  ) test_data;
+  ) test_data
 
   let acc = accuracy nearest_neighbor test_data train_data in
   Printf.printf "Accuracy: %.2f%%\n" (acc *. 100.0)
