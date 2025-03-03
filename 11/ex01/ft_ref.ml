@@ -1,4 +1,4 @@
-type 'a ft_ref = { mutable contents: 'a }
+type 'a ft_ref = { contents: 'a }
 
 let return x = { contents = x }
 
